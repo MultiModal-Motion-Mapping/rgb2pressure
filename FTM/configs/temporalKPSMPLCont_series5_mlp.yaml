@@ -1,0 +1,41 @@
+name: ['Vector', 'tempKPSMPL_series5_mlp']
+logdir: 'log/tempKPSMPL_series5_mlp'
+load_net_checkpoint: ['checkpoints/Vector/latest', 'checkpoints/tempKPSMPL_series5_mlp/latest']
+checkpoint_path: 'checkpoints'
+result_path: 'results'
+
+
+trainer:
+  lr: 5e-4
+  epochs: 1500
+  num_train_epochs: 200
+  module: 'lib.Trainer.trainer_tempkpSMPLCont_mse'
+  path: 'lib/Trainer/trainer_tempkpSMPLCont.py'
+  w_press: 1.0
+  w_cont: 6.0
+
+dataset:
+  module: 'lib.Dataset.PressDataset.PED_tempKPCont'
+  path: 'lib/Dataset/PressDataset/PED_tempKPCont.py'
+  datadir: '/nasdata/jiayi/MMVP/images/images/'
+  tv_fn: 'essentials/mini_data_split.npy'
+  img_res: 224
+  serial_batches: False
+  pin_memory: True
+  aug:
+    is_sam: False
+
+
+networks:
+  FP_module: 'lib.Networks.ContNetwork'
+  FP_path: 'lib/Networks/TemporalKpSMPLNet_Series_mlp.py'
+  vec_module: 'lib.Networks.FVecNet'
+  vec_path: 'lib/Networks/FVecNet.py'
+  seqlen: 5
+
+record:
+  save_freq: 50
+  show_freq: 20
+  print_freq: 1
+
+
